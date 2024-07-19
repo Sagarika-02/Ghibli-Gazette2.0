@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'style.css' %}">
+    <style>
+        :root {
+            --bg-image: url("{% static 'Images/studio-ghibli-characters-having-fun-jr2firyqpsjbutn2.jpg' %}");
+            --bg-color: #F0EAD6;
+            /* Light Beige */
+            --snd-bg-color: #2C5F2D;
+            /* Forest Green */
+            --accent-color: #f49343;
+            /* Soft Orange */
+            --text-color: #2F4858;
+            /* Deep Blue */
+            --btn-color: #88B04B;
+            /* Pastel Green */
+            --btn-hover-color: #6D9A3F;
+            /* Darker Green for Hover */
+            --footer-color: #2C3E50;
+            /* Dark Blue-Grey */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .btn {
+            background-color: var(--btn-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--btn-hover-color);
+        }
+
+        .hero {
+            background-color: var(--snd-bg-color);
+            color: var(--text-color);
+            background-image:var(--bg-image);
+            /* Use a Ghibli-themed image */
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply;
+            padding: 4rem 0;
+            height: 30rem;
+        }
+
+        .hero h2 {
+            font-family: 'Garamond', serif;
+            color: var(--bg-color);
+        }
+
+        .featured-post {
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 0.375rem;
+            overflow: hidden;
+        }
+
+        footer {
+            background-color: var(--footer-color);
+            color: white;
+        }
+
+        nav a {
+            color: var(--snd-bg-color);
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+        .titlename {
+            color: #1a224f;
+            font-size: 25px;
+        }
+        .username{
+            color: #f3f692;
+            font-weight: 500;
+            font-size: 18px;
+        }
+        .readmore{
+            color: var(--footer-color);
+            text-decoration: underline;
+            font-weight: 700;
+        }
+        .time{
+            color:rgb(7, 38, 77);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+   {% include 'header.html' %}
+
+    <!-- Hero Section -->
+    <section class="hero section text-white py-20">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold">Unveiling the Wonders of Studio Ghibli</h2>
+            <p class="mt-4 text-lg" style="color: var(--bg-color);">Dive Into Ghibli Stories and Reflections</p>
+            <a href="{%url 'allposts' %}" class="mt-10 inline-block btn">See All the Posts</a>
+        </div>
+    </section>
+
+
+
+    <!-- Latest Posts -->
+    <section class="container mx-auto px-4 py-16">
+        <h3 class="text-2xl font-bold mb-6">Latest Posts</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {%for post in recent_posts%}
+            <!-- Sample Post -->
+            <div class="featured-post shadow rounded overflow-hidden">
+                <img src="{{post.image.url}}" alt="Post Image" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h4 class="titlename text-lg  mb-2">{{post.title}}</h4>
+                    <p class="username mb-2">{{post.user.username}}</p>
+                    <p class="time text-sm ">Posted on {{post.created_at}}</p>
+                    <p class="text-gray-200 mb-4 text-sm">{{post.content|truncatechars:90}}</p>
+                    <a href="{%url 'readmore' pk=post.pk %}" class=" readmore text-white hover:underline">Read More</a>
+                </div>
+            </div>
+            {%endfor%}
+            <!-- Repeat for more posts -->
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+    
+</body>
+
+</html>

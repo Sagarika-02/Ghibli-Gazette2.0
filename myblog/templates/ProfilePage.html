@@ -1,0 +1,146 @@
+<!-- profile.html -->
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'style.css' %}">
+    <style>
+        :root {
+            --bg-color: #F0EAD6;
+            /* Light Yellow */
+            --header-bg-color: #6B8E23;
+            /* Olive Green */
+            --text-color: #2C5F2D;
+            /* Forest Green */
+            --button-bg-color: #88B04B;
+            /* Pastel Green */
+            --button-hover-color: #6D9A3F;
+            /* Darker Green for Hover */
+            --footer-bg-color: #2C3E50;
+            /* Dark Blue-Grey */
+            --form-bg-color: #FFEE93;
+            /* Cornsilk */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: var(--header-bg-color);
+            color: white;
+        }
+
+        .btn {
+            background-color: var(--button-bg-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--button-hover-color);
+        }
+
+        .form-container {
+            background-color: white;
+        }
+
+        footer {
+            background-color: var(--footer-bg-color);
+            color: white;
+        }
+    </style>
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    const postId = this.getAttribute('data-post-id');
+                    if (!confirm('Are you sure you want to delete this post?')) {
+                        event.preventDefault();  // Prevent the form submission if the user cancels
+                    } else {
+                        this.closest('form').submit();
+                    }
+                });
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <!-- Header -->
+    {% include 'header.html' %}
+
+
+    <!-- Profile Content -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="max-w-lg mx-auto shadow rounded p-8 form-container">
+            <h2 class="text-2xl font-bold mb-6">Your Profile</h2>
+            <!--If only user has any profile then only the only the whole thing with the form to edit otherwise In"Profile" Showe Create Profile and show only the form not the div that shows the profile-->
+            {% if profile %}
+            <div class="flex items-center mb-4">
+                <img src="{{profile.profile_image.url}}"  class="w-24 h-24 rounded-full mr-4">
+                <div>
+                    <h3 class="text-xl font-bold">{{request.user.username}}</h3>
+                    <p class="text-gray-600">{{profile.bio}}</p>
+                </div>
+            </div>
+            <form action="{% url 'createprofile' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="bio" class="block text-gray-700">Bio</label>
+                    <textarea id="bio" name="bio" class="w-full mt-2 p-2 border rounded"
+                        rows="4"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="image" class="block text-gray-700">Profile Image</label>
+                    <input type="file" id="image" name="profile_image" class="w-full mt-2 p-2 border rounded" accept="image/*">
+                </div>
+                <button type="submit" class="w-full btn mb-5px">Save Changes</button>
+            </form>
+            
+            <form action="{% url 'delete_profile' %}" method="POST" class="mt-4">
+                {% csrf_token %}
+                <button type="submit" class="w-full btn delete-btn" style="background-color:#f55558;">Delete Profile</button>
+            </form>
+           
+            {%else%}
+            <p>You haven't created a profile yet.</p>
+            <form action="{% url 'createprofile' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="bio" class="block text-gray-700">Bio</label>
+                    <textarea id="bio" name="bio" class="w-full mt-2 p-2 border rounded"
+                        rows="4"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="image" class="block text-gray-700">Profile Image</label>
+                    <input type="file" id="image" name="profile_image" class="w-full mt-2 p-2 border rounded" accept="image/*">
+                </div>
+                <button type="submit" class="w-full btn">Create</button>
+            </form>
+            {% endif%}
+            <!---->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+    
+</body>
+
+</html>
