@@ -1,18 +1,19 @@
-Here’s a complete `README.md` file for the **Ghibli Gazette** project, including instructions for setting up the `.env` file, installing dependencies, and additional sections for images:
+Here’s the updated `README.md` file for **Ghibli Gazette** with the added features:
 
 ---
 
 # Ghibli Gazette
 
-Ghibli Gazette is a web application dedicated to providing the latest news and updates about Studio Ghibli. This project aims to offer fans a central hub to stay informed about Studio Ghibli's activities, releases, and more.
-
+Ghibli Gazette is a web application A curated space for sharing insights and stories about Studio Ghibli(Famous Japanese Animation Company)
+.
 ![Ghibli Gazette](path/to/your/image.png) <!-- Add your project image here -->
 
 ## Features
 
-- Latest news and updates on Studio Ghibli
 - User-friendly interface with responsive design
-- Real-time updates and notifications
+- Any user can log in, create their own profile, can also edit and delete their profile
+- Users can create, edit, and delete their own posts
+- Users can also interact with other user's post like can Read the posts, can see the user's Details on top of every post
 
 ## Technologies Used
 
@@ -70,8 +71,6 @@ Create a `.env` file in the root directory of the project with the following con
 ```env
 DJANGO_SECRET_KEY=your_secret_key
 DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
-DATABASE_URL=sqlite:///db.sqlite3
 ```
 
 Replace `your_secret_key` with a secure, random key. Adjust other values as needed.
@@ -94,18 +93,9 @@ python manage.py runserver
 
 Navigate to `http://127.0.0.1:8000/` in your browser to view the application.
 
-## Contributing
 
-Feel free to submit issues or pull requests. Contributions are welcome!
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact
-
-For any questions or inquiries, you can reach me at [your.email@example.com](mailto:your.email@example.com).
-
----
-
-**Note:** Replace `path/to/your/image.png` with the actual path to your project image, and customize the email address and other placeholders as needed.
