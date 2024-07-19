@@ -1,8 +1,18 @@
-/env
-*/media
-*__pycache__
-db.sqlite3
+# Ignore environment files
 .env
-*tailwind.config.js
+
+# Ignore SQLite database files
+*.sqlite3
+*.db
+
+# Ignore media files
+*/media
+
+# Ignore Python cache files
+__pycache__
+
+# Ignore CSS source map files
 *.css.map
-*tempCodeRunnerFile.py
+
+# Ignore temporary files created by certain editors or IDEs
+*tempCodeRunnerF
