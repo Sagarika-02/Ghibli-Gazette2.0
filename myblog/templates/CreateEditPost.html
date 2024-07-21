@@ -64,8 +64,8 @@
 </head>
 
 <body>
- 
-     {% include 'header.html' %}
+
+    {% include 'header.html' %}
 
     <!-- Create/Edit Post Content -->
     <section class="container mx-auto px-4 py-16">
@@ -74,24 +74,28 @@
             {%if action == "create" %}
             <h2 class="text-2xl font-bold mb-6">Create a new post</h2>
             <form action="{% url 'createpost' %}" method="POST" enctype="multipart/form-data">
-            {%else%}
-            <h2 class="text-2xl font-bold mb-6">Edit Your Post</h2>
-            <form action="{% url 'editpost' pk=post.id %}" method="POST" enctype="multipart/form-data">
-            {%endif %}
+                {%else%}
+                <h2 class="text-2xl font-bold mb-6">Edit Your Post</h2>
+                <form action="{% url 'editpost' pk=post.id %}" method="POST" enctype="multipart/form-data">
+                    {%endif %}
                     {% csrf_token%}
                     <div class="mb-4">
                         <label for="title" class="block text-gray-700">Title</label>
-                        <input type="text" id="title" name="title" class="w-full mt-2 p-2 border rounded" required>
+                        <input type="text" id="title" name="title" class="w-full mt-2 p-2 border rounded"
+                            value="{{ post.title }}" required><!--value attribute is To populate the form when user wants to edit-->
                     </div>
                     <div class="mb-4">
                         <label for="content" class="block text-gray-700">Content</label>
                         <textarea id="content" name="content" class="w-full mt-2 p-2 border rounded"
-                            rows="10"></textarea>
+                            rows="10">{{ post.content }}</textarea><!--post.content attribute is To populate the form when user wants to edit-->
                     </div>
                     <div class="mb-4">
                         <label for="image" class="block text-gray-700">Image</label>
                         <input type="file" id="image" name="image" class="w-full mt-2 p-2 border rounded"
                             accept="image/*">
+                        {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="Current Image" class="mt-2">
+                        {% endif %}
                     </div>
                     <button type="submit" class="w-full btn">Save Post</button>
                 </form>
@@ -101,7 +105,7 @@
     </section>
 
 
-    <!-- Footer --> 
+    <!-- Footer -->
     {% include 'footer.html' %}
 
 </body>

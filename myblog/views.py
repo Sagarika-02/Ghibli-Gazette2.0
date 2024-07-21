@@ -61,6 +61,7 @@ def user_login(request):
 
 
 
+
 def logout(request):
     auth_logout(request)
     return redirect('home')  # Redirect to the login page
@@ -125,7 +126,7 @@ def createpost(request):
 
 
 def allposts(request):
-    posts = postcreateModel.objects.all().select_related('user__profile').all()#Remember
+    posts = postcreateModel.objects.all().select_related('user__profile').order_by('-created_at')#Remember
     return render(request, 'Posts.html', {'posts': posts})
 
 

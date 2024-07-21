@@ -7,6 +7,16 @@
         <div class="flex items-center">
             <img src="{% static 'Images/logo4.png' %}" style="width:5rem; height:3.5rem; border-radius:12px" alt="Logo">
         </div>
+
+        <!--Username-->
+        <div class="flex items-center ">
+            {% if user.is_authenticated %}
+            <h3 class="text-sm font-semibold  ml-4">
+                <span class="font-bold ">User:</span> {{ username }}
+            </h3>
+            {% endif %}
+        </div>
+        
         <!-- Hamburger Icon -->
         <button id="hamburger-button" class="block lg:hidden text-gray-500 hover:text-gray-900 focus:outline-none">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

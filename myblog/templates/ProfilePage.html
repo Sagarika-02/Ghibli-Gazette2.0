@@ -62,7 +62,7 @@
         }
     </style>
 
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const deleteButtons = document.querySelectorAll('.delete-btn');
@@ -93,7 +93,7 @@
             <!--If only user has any profile then only the only the whole thing with the form to edit otherwise In"Profile" Showe Create Profile and show only the form not the div that shows the profile-->
             {% if profile %}
             <div class="flex items-center mb-4">
-                <img src="{{profile.profile_image.url}}"  class="w-24 h-24 rounded-full mr-4">
+                <img src="{{profile.profile_image.url}}" class="w-24 h-24 rounded-full mr-4">
                 <div>
                     <h3 class="text-xl font-bold">{{request.user.username}}</h3>
                     <p class="text-gray-600">{{profile.bio}}</p>
@@ -104,32 +104,37 @@
                 <div class="mb-4">
                     <label for="bio" class="block text-gray-700">Bio</label>
                     <textarea id="bio" name="bio" class="w-full mt-2 p-2 border rounded"
-                        rows="4"></textarea>
+                        rows="4">{{profile.bio}}</textarea>
                 </div>
                 <div class="mb-4">
                     <label for="image" class="block text-gray-700">Profile Image</label>
-                    <input type="file" id="image" name="profile_image" class="w-full mt-2 p-2 border rounded" accept="image/*">
+                    <input type="file" id="image" name="profile_image" class="w-full mt-2 p-2 border rounded"
+                        accept="image/*">
+                    {% if profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}" alt="Current Image" class="mt-2">
+                    {% endif %}
                 </div>
                 <button type="submit" class="w-full btn mb-5px">Save Changes</button>
             </form>
-            
+
             <form action="{% url 'delete_profile' %}" method="POST" class="mt-4">
                 {% csrf_token %}
-                <button type="submit" class="w-full btn delete-btn" style="background-color:#f55558;">Delete Profile</button>
+                <button type="submit" class="w-full btn delete-btn" style="background-color:#f55558;">Delete
+                    Profile</button>
             </form>
-           
+
             {%else%}
             <p>You haven't created a profile yet.</p>
             <form action="{% url 'createprofile' %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="mb-4">
                     <label for="bio" class="block text-gray-700">Bio</label>
-                    <textarea id="bio" name="bio" class="w-full mt-2 p-2 border rounded"
-                        rows="4"></textarea>
+                    <textarea id="bio" name="bio" class="w-full mt-2 p-2 border rounded" rows="4"></textarea>
                 </div>
                 <div class="mb-4">
                     <label for="image" class="block text-gray-700">Profile Image</label>
-                    <input type="file" id="image" name="profile_image" class="w-full mt-2 p-2 border rounded" accept="image/*">
+                    <input type="file" id="image" name="profile_image" class="w-full mt-2 p-2 border rounded"
+                        accept="image/*">
                 </div>
                 <button type="submit" class="w-full btn">Create</button>
             </form>
@@ -140,7 +145,7 @@
 
     <!-- Footer -->
     {% include 'footer.html' %}
-    
+
 </body>
 
 </html>

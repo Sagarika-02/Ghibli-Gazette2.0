@@ -63,6 +63,11 @@
         }
         .delete-btn{
             background-color: #f55558;
+            text-decoration: none;
+        }
+        .delete-btn:hover{
+            background-color: #f03f42;
+            text-decoration: none;
         }
     </style>
 
@@ -95,10 +100,10 @@
     <section class="container mx-auto px-4 py-16">
         <div class="max-w-2xl mx-auto bg-white shadow rounded p-8">
 
-            <h2 class="text-2xl font-bold mb-6 ">Blog Posts</h2>
+            <h2 class="text-2xl font-bold mb-6 ">Posts</h2>
 
             <!--Porfile of the user who posted it-->
-            {% for post in posts%}
+            {% for post in posts %}
 
             <!--Profile details-->
             <div class="flex items-center mb-4 mt-4">
@@ -117,7 +122,7 @@
                 {%endif%}
                 <div class="p-6 space-x-2">
                     <h4 class="text-xl font-bold mb-2">{{post.title}}</h4>
-                    <p class="text-gray-700 mb-4">{{post.created_at}}</p>
+                    <p class="text-gray-700 mb-4">Posted on {{post.created_at}}</p>
                     <p class="text-gray-700 mb-4">{{post.content|truncatechars:100 }}</p>
                 {%if user.is_authenticated%}
                     {% if user == post.user %}
