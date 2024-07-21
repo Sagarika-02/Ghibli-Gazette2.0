@@ -4,9 +4,11 @@ Here’s the updated `README.md` file for **Ghibli Gazette** with the added feat
 
 # Ghibli Gazette
 
-Ghibli Gazette is a web application A curated space for sharing insights and stories about Studio Ghibli(Famous Japanese Animation Company)
-.
-![Ghibli Gazette](path/to/your/image.png) <!-- Add your project image here -->
+Ghibli Gazette is a web application with a curated space for sharing insights and stories about Studio Ghibli,a famous Japanese animation company.
+
+![Ghibli Gazette](static/Images/pic2.png) <!-- Add your project image here -->
+
+![Ghibli Gazette](static/Images/pic1.png) <!-- Add your project image here -->
 
 ## Features
 
