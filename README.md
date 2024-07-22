@@ -97,7 +97,3 @@ Navigate to `http://127.0.0.1:8000/` in your browser to view the application.
 
 
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
