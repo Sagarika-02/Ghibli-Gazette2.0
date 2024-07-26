@@ -19,6 +19,7 @@ urlpatterns = [
     path('deletepost/<int:pk>/',views.deletepost,name="deletepost"),
     path('mypost/',views.mypost,name="mypost"),
     path('readmore/<int:pk>/',views.readmore,name="readmore"),
+    path('search_results/',views.search_results,name="search_results"),
     
     #path('add_comment/<int:post_id>/',views.add_comment,name="add_comment"),
     #Wpath('add_reply/<comment_id>/',views.add_reply,name="add_reply"),

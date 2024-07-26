@@ -50,9 +50,10 @@
         .hero {
             background-color: var(--snd-bg-color);
             color: var(--text-color);
-            background-image:var(--bg-image);
+            background-image: var(--bg-image);
             /* Use a Ghibli-themed image */
             background-size: cover;
+            background-repeat: no-repeat;
             background-position: center;
             background-blend-mode: multiply;
             padding: 4rem 0;
@@ -85,35 +86,62 @@
         nav a:hover {
             color: var(--accent-color);
         }
+
         .titlename {
             color: #1a224f;
             font-size: 25px;
         }
-        .username{
+
+        .username {
             color: #f3f692;
             font-weight: 500;
             font-size: 18px;
         }
-        .readmore{
+
+        .readmore {
             color: var(--footer-color);
             text-decoration: underline;
             font-weight: 700;
         }
-        .time{
-            color:rgb(7, 38, 77);
+
+        .time {
+            color: rgb(7, 38, 77);
         }
     </style>
 </head>
 
 <body>
     <!-- Header -->
-   {% include 'header.html' %}
+    {% include 'header.html' %}
 
     <!-- Hero Section -->
     <section class="hero section text-white py-20">
         <div class="container mx-auto text-center">
             <h2 class="text-4xl font-bold">Welcome to Ghibli Gazette</h2>
             <p class="mt-4 text-lg" style="color: var(--bg-color);">Dive Into Ghibli Stories and Reflections</p>
+
+
+            <!-- Search Bar -->
+            <div class="mt-8 mb-10 max-w-md mx-auto">
+                <form action="{% url 'search_results' %}" method="get" class="flex">
+                    <input 
+                        type="text" 
+                        name="query" 
+                        placeholder="Search for Ghibli posts..." 
+                        class="flex-1 px-4 py-2 border border-green-500 rounded-l-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-color focus:border-accent-color transition duration-300 ease-in-out"
+                    >
+                    <button 
+                        type="submit" 
+                        class="bg-white bg-accent-color text-black px-4 py-2 rounded-r-md border border-green-500 transition duration-300 ease-in-out flex items-center justify-center"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 23 23" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14zm-2 7a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm3 8h.01M20.49 20.49l-3.44-3.44"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+
             <a href="{%url 'allposts' %}" class="mt-10 inline-block btn">See All the Posts</a>
         </div>
     </section>
@@ -123,7 +151,7 @@
     <!-- Latest Posts -->
     <section class="container mx-auto px-4 py-16">
         <h3 class="text-2xl font-bold mb-6">Latest Posts</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
             {%for post in recent_posts%}
             <!-- Post Deatails-->
             <div class="featured-post shadow rounded overflow-hidden">
@@ -143,8 +171,9 @@
     </section>
 
     <!-- Footer -->
+     
     {% include 'footer.html' %}
-    
+
 </body>
 
 </html>

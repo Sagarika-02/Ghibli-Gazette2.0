@@ -7,6 +7,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as auth_logout
 from django.shortcuts import render, get_object_or_404
 import re
+import requests
+from django.db.models import Q
 from django.http import HttpResponse
 from .models import profileModel
 from .models import postcreateModel
@@ -201,3 +203,37 @@ def delete_profile(request):
         return redirect(reverse('home'))  # Redirect to a home or login page
 
     return redirect('createprofile') 
+
+
+
+
+
+
+def search_results(request):
+    query = request.GET.get('query', '')
+    context = {'search_query': query}
+
+    if query and len(query)>2:
+        # Split the query into individual keywords
+        keywords = query.lower().split()
+        
+        # Build the query conditions using Q objects
+        query_conditions = Q()
+        for keyword in keywords:
+            query_conditions |= Q(title__icontains=keyword) | Q(content__icontains=keyword)
+
+        # Filter posts based on the query conditions
+        posts = postcreateModel.objects.filter(query_conditions)
+        
+        if posts.exists():
+            context['search_results'] = posts
+        else:
+            # If no posts are found, search for Ghibli information via API
+            response = requests.get(f'https://ghibliapi.herokuapp.com/films')
+            if response.status_code == 200:
+                data = response.json()
+                context['api_results'] = [film for film in data if query.lower() in film['title'].lower() or query.lower() in film['description'].lower()]
+            else:
+                context['api_results'] = []
+
+    return render(request, 'search_results.html', context)

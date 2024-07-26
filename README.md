@@ -6,16 +6,17 @@ Here’s the updated `README.md` file for **Ghibli Gazette** with the added feat
 
 Ghibli Gazette is a web application with a curated space for sharing insights and stories about Studio Ghibli,a famous Japanese animation company.
 
-![Ghibli Gazette](static/Images/pic2.png) <!-- Add your project image here -->
+![Ghibli Gazette](static/Images/pic3.png) <!-- Add your project image here -->
 
 ![Ghibli Gazette](static/Images/pic1.png) <!-- Add your project image here -->
 
 ## Features
 
 - User-friendly interface with responsive design
-- Any user can log in, create their own profile, can also edit and delete their profile
+- Any user can Sign Up ,Log In, create their own profile, can also edit and delete their profile
 - Users can create, edit, and delete their own posts
 - Users can also interact with other user's post like can Read the posts, can see the user's Details on top of every post
+- Quickly find posts and relevant content with a powerful search function that allows users to search by keywords or phrases. This feature enhances user experience by making it easy to discover specific posts or topics of interest.
 
 ## Technologies Used
 
