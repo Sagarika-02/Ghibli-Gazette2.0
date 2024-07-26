@@ -8,7 +8,7 @@ Ghibli Gazette is a web application with a curated space for sharing insights an
 
 ![Ghibli Gazette](static/Images/pic3.png) <!-- Add your project image here -->
 
-![Ghibli Gazette](static/Images/pic1.png) <!-- Add your project image here -->
+![Ghibli Gazette](static/Images/pic4.png) <!-- Add your project image here -->
 
 ## Features
 
