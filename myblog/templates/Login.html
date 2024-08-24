@@ -7,37 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log In</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{%static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
     <style>
         :root {
-
-        
-            --bg-color: #F0EAD6;
-            /* Light Yellow */
+            --bg-color: white;
             --header-bg-color: #6B8E23;
-            /* Olive Green */
             --text-color: #2C5F2D;
-            /* Forest Green */
-            --button-bg-color: #88B04B;
-            /* Pastel Green */
+            --button-bg-color: #9ecd58;
             --button-hover-color: #6D9A3F;
-            /* Darker Green for Hover */
             --footer-bg-color: #2C3E50;
-            /* Dark Blue-Grey */
-            --form-bg-color: #FFF8DC;
-            /* Cornsilk */
+            --form-bg-color: rgba(82, 109, 125, 0.8); /*#3b5667 */
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             background-size: cover;
-
-        }
-
-        .header {
-            background-color: var(--header-bg-color);
-            color: white;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .btn {
@@ -57,51 +47,73 @@
 
         .form-container {
             background-color: var(--form-bg-color);
+            backdrop-filter: blur(8px); /* Optional: adds a subtle blur effect */
+            color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        footer {
-            background-color: var(--footer-bg-color);
+        .form-container h2 {
             color: white;
         }
-       
-    
+
+        .form-container label {
+            color: #E0E0E0; /* Light gray for better readability */
+        }
+
+        .form-container input {
+            border: 1px solid rgb(105, 107, 115); /* Light gray border for inputs */
+            background-color: white ;/*#E0E0E0;*/ /* Slightly transparent white */
+            color: rgb(26, 26, 26); /* White text for inputs */
+        }
+
+        .form-container .alert {
+            color: #FF6F61; /* Light red for error messages */
+        }
+
+        .form-container a {
+            color: #4FC3F7; /* Light blue for links */
+        }
     </style>
 </head>
 
 <body>
-
-
     <!-- Log In Page -->
-    <section class="container mx-auto px-4 py-16">
-        <div class="max-w-lg mx-auto shadow rounded p-8 form-container">
-            <h2 class="text-2xl font-bold mb-6">Log In</h2>
-            <form action="{% url 'user_login' %}" method="POST">
-                {% csrf_token%}
-                <div class="mb-4">
-                    <label for="username" class="block text-gray-700">Username</label>
-                    <input type="text" id="username" name="username" class="w-full mt-2 p-2 border rounded" required>
-                </div>
+    <section class="w-full h-full flex justify-center items-center">
+        <div class="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-20 w-4/5">
+            <!-- Logo -->
+            <div class="flex-shrink-0">
+                <img src="{% static 'Images/logo4.png' %}" alt="Logo" class="w-50 h-50">
+            </div>
+            <!-- Login Form -->
+            <div class="w-full md:w-2/3 lg:w-1/2 shadow rounded p-8 form-container">
+                <h2 class="text-3xl font-bold mb-6">Log In</h2>
+                <form action="{% url 'user_login' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="username" class="block">Username</label>
+                        <input type="text" id="username" name="username" class="w-full mt-2 p-2 border rounded" required>
+                    </div>
 
-                {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-danger" style="color: red;">
-                    {{ message }}
-                </div>
-                {% endfor %}
-                {% endif %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-danger mb-4">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
 
-                <div class="mb-4">
-                    <label for="password" class="block text-gray-700">Password</label>
-                    <input type="password" id="password" name="password" class="w-full mt-2 p-2 border rounded"
-                        required>
-                </div>
-                <button type="submit" class="w-full btn">Log In</button>
-            </form>
-            <p class="mt-6 text-center text-gray-600">Don't have an account? <a href="{% url 'signup' %}"
-                    class="text-blue-500 hover:underline">Sign Up</a></p>
+                    <div class="mb-4">
+                        <label for="password" class="block">Password</label>
+                        <input type="password" id="password" name="password" class="w-full mt-2 p-2 border rounded" required>
+                    </div>
+                    <button type="submit" class="w-full btn">Log In</button>
+                </form>
+                <p class="mt-6 text-center">Don't have an account? <a href="{% url 'signup' %}" class="hover:underline">Sign Up</a></p>
+            </div>
         </div>
     </section>
-
 </body>
 
 </html>
