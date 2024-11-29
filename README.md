@@ -17,6 +17,7 @@ Ghibli Gazette is a web application with a curated space for sharing insights an
 - Users can create, edit, and delete their own posts
 - Users can also interact with other user's post like can Read the posts, can see the user's Details on top of every post
 - Quickly find posts and relevant content with a powerful search function that allows users to search by keywords or phrases. This feature enhances user experience by making it easy to discover specific posts or topics of interest.
+- Password Reset Feature: Implements secure token-based email authentication with rate limiting and expiry validation.
 
 ## Technologies Used
 
