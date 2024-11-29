@@ -63,9 +63,13 @@
 <body>
 
     <!-- Sign Up Page -->
-    <section class="container mx-auto px-4 py-16">
+    <section class="container mx-auto px-4 py-16 ">
         <div class="max-w-lg mx-auto shadow rounded p-8 form-container">
-            <h2 class="text-2xl font-bold mb-6">Sign Up</h2>
+            <div class="flex items-center justify-center mb-3 ">
+                <img src="{% static 'Images/logo4.png' %}" class="w-32 h-22">
+            </div>
+            <h2 class="text-2xl font-bold mb-6 text-center ">Sign Up</h2>
+            
             <form action="{% url 'signup' %}" method="POST">
                 {% csrf_token%}
                 <div class="mb-4">

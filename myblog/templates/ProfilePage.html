@@ -60,6 +60,8 @@
             background-color: var(--footer-bg-color);
             color: white;
         }
+       
+
     </style>
 
 
@@ -69,7 +71,7 @@
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function (event) {
                     const postId = this.getAttribute('data-post-id');
-                    if (!confirm('Are you sure you want to delete this post?')) {
+                    if (!confirm('Are you sure you want to delete this Account?')) {
                         event.preventDefault();  // Prevent the form submission if the user cancels
                     } else {
                         this.closest('form').submit();
@@ -90,13 +92,28 @@
     <section class="container mx-auto px-4 py-16">
         <div class="max-w-lg mx-auto shadow rounded p-8 form-container">
             <h2 class="text-2xl font-bold mb-6">Your Profile</h2>
+               <!-- Display error message if it exists -->
+        {% if error_message %}
+        <div class="alert alert-danger bg-red-200 text-red-800 p-4 rounded mb-4">
+            {{ error_message }}
+        </div>
+       {% endif %}
+
             <!--If only user has any profile then only the only the whole thing with the form to edit otherwise In"Profile" Showe Create Profile and show only the form not the div that shows the profile-->
             {% if profile %}
             <div class="flex items-center mb-4">
-                <img src="{{profile.profile_image.url}}" class="w-24 h-24 rounded-full mr-4">
+
+                {% if profile.profile_image %}
+                <img src="{{ profile.profile_image.url }}" class="w-24 h-24 rounded-full mr-4">
+                {% else %}
+                    <img src="{% static 'Images/default.png' %}" class="w-24 h-24 rounded-full mr-4"> 
+                    <!-- Add a default profile image if none exists -->
+                {% endif %}
+
+
                 <div>
                     <h3 class="text-xl font-bold">{{request.user.username}}</h3>
-                    <p class="text-gray-600">{{profile.bio}}</p>
+                    <p class="text-gray-600" >{{profile.bio}}</p>
                 </div>
             </div>
             <form action="{% url 'createprofile' %}" method="POST" enctype="multipart/form-data">
@@ -117,10 +134,14 @@
                 <button type="submit" class="w-full btn mb-5px">Save Changes</button>
             </form>
 
+            <!--Change Password-->
+            <button class="w-full h-10 mt-4 rounded-md text-white" style="background-color:#ffbe3c;"><a href="{% url 'forgot_password' %}">Change Password</a></button>
+            
+           <!--Delete Account-->
             <form action="{% url 'delete_profile' %}" method="POST" class="mt-4">
                 {% csrf_token %}
-                <button type="submit" class="w-full btn delete-btn" style="background-color:#f55558;">Delete
-                    Profile</button>
+                <button type="submit" class="w-full btn delete-btn" style="background-color:#f77072;">Delete
+                    Account</button>
             </form>
 
             {%else%}
@@ -128,16 +149,26 @@
             <form action="{% url 'createprofile' %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="mb-4">
-                    <label for="bio" class="block text-gray-700">Bio</label>
-                    <textarea id="bio" name="bio" class="w-full mt-2 p-2 border rounded" rows="4"></textarea>
+                    <label for="bio" class="block text-gray-700" >Bio</label>
+                    <textarea id="bio" name="bio" class="w-full mt-2 p-2 border rounded" rows="4" required></textarea>
                 </div>
                 <div class="mb-4">
-                    <label for="image" class="block text-gray-700">Profile Image</label>
+                    <label for="image" class="block text-gray-700" required>Profile Image</label>
                     <input type="file" id="image" name="profile_image" class="w-full mt-2 p-2 border rounded"
                         accept="image/*">
                 </div>
                 <button type="submit" class="w-full btn">Create</button>
             </form>
+           
+            <!--Change Password-->
+            <button class="w-full h-10 mt-4 rounded-md text-white" style="background-color:#ffbe3c"><a href="{% url 'forgot_password' %}">Change Password</a></button>
+
+            <!--Delete User Account-->
+            <form action="{% url 'delete_profile' %}" method="POST" class="mt-4">
+                {% csrf_token %}
+                <button type="submit" class="w-full btn delete-btn" style="background-color:#f55558;">Delete
+                    Account</button>
+            </form> 
             {% endif%}
             <!---->
         </div>

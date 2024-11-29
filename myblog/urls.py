@@ -21,6 +21,11 @@ urlpatterns = [
     path('readmore/<int:pk>/',views.readmore,name="readmore"),
     path('search_results/',views.search_results,name="search_results"),
     
+    #Forgot Password
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
+    path('reset-password/<uidb64>/<token>/', views.reset_password, name='reset_password'),
+
+    
     #path('add_comment/<int:post_id>/',views.add_comment,name="add_comment"),
     #Wpath('add_reply/<comment_id>/',views.add_reply,name="add_reply"),
    

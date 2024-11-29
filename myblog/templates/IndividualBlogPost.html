@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Post</title>
+    <script src="https://kit.fontawesome.com/f41ea349cb.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{%static 'style.css' %}">
     <style>
@@ -108,8 +109,8 @@
                     alt="" class="w-14 h-14 rounded-full mr-4">
                 <div>
                     <h3 class="text-lg font-bold">{{post.user.username}}</h3>
-                    <p class="text-gray-600 text-sm">{{post.user.profile.bio}}</p>
-                    <p class="text-green-700 text-sm ">Posted on {{post.created_at}}</p>
+                    <p class="text-gray-600 text-md" >{{post.user.profile.bio}}</p>
+                    <p class="text-green-700 text-sm "> <i class="fa-regular fa-clock"></i> Posted on {{post.created_at}}</p>
                 </div>
             </div>
             <h2 class="text-2xl font-bold mb-6">{{post.title}}</h2>
@@ -154,6 +155,7 @@
 
             {%else%}
             {%if user.is_authenticated%}
+            {% if posts %}
             {% for post in posts%}
             <div class="flex items-center mb-4 mt-4">
                 <img src="{%if post.user.profile.profile_image %}{{post.user.profile.profile_image.url}}{%else%}{% static 'Images/default.png'%}{%endif%}"
@@ -161,7 +163,7 @@
                 <div>
                     <h3 class="text-xl font-bold">{{post.user.username}}</h3>
                     <p class="text-gray-600">{{post.user.profile.bio}}</p>
-                    <p class="text-green-700 text-sm ">Posted on {{post.created_at}}</p>
+                    <p class="text-green-700 text-sm "> <i class="fa-regular fa-clock"></i> Posted on {{post.created_at}}</p>
                 </div>
             </div>
             <h2 class="text-2xl font-bold mb-4">{{post.title}}</h2>
@@ -208,8 +210,12 @@
             {%endif%}
 
             {%endfor%}
+            {% else %}
+            <h1 >You have no posts yet</h1>
+            <button class="text-red-500 hover:underline btn mt-10"><a href="{% url 'createpost' %}">Create Post</a></button>
+            {% endif %}
             {%endif%}
-            {%endif%}
+            {%endif%} 
 
 
 

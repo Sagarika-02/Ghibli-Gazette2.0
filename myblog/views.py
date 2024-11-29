@@ -14,6 +14,25 @@ from .models import profileModel
 from .models import postcreateModel
 from django.urls import reverse
 
+#For password Reset feature
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes,force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode 
+from django.template.loader import render_to_string
+from django.core.mail import send_mail,EmailMessage
+from django.contrib import messages
+from django.core.cache import cache
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError  # Add this import
+from datetime import timedelta,datetime
+from django.utils.timezone import now
+from django.conf import settings
+
+
+
+
+
+
 
 def home(request):
     recent_posts = postcreateModel.objects.order_by('-created_at')[:3]
@@ -39,7 +58,7 @@ def signup(request):
             return redirect('signup')  # Redirect to signup page
 
         # Create user
-        user = User.objects.create_user(username=username, password=password)
+        user = User.objects.create_user(username=username,  email=email, password=password)
         user.save()
         messages.success(request, f"Account created for {username}. You can now login.")
         return redirect('user_login')  # Redirect to login page after successful signup
@@ -86,17 +105,21 @@ def createprofile(request):
         bio = request.POST.get('bio')
         image = request.FILES.get('profile_image')
 
+        # Check if bio and image are provided, and handle missing data
+        if not bio or not image:
+            # Handle case where either bio or image is missing
+            error_message = "Both bio and profile image are required."
+            # Optionally, you can use Django's messages framework to display this error message
+            return render(request, 'ProfilePage.html', {'profile': profile, 'error_message': error_message})
+
         if profile:
             # Update existing profile
             profile.bio = bio
-            if image:
-                profile.profile_image = image
+            profile.profile_image = image
             profile.save()
-            #messages.success(request, 'Profile updated successfully!')
         else:
             # Create new profile
             profile = profileModel.objects.create(user=request.user, bio=bio, profile_image=image)
-            #messages.success(request, 'Profile created successfully!')
 
         return redirect('profile')  # Redirect to profile page after profile update or creation
 
@@ -237,3 +260,151 @@ def search_results(request):
                 context['api_results'] = []
 
     return render(request, 'search_results.html', context)
+
+
+
+
+
+
+
+
+#Password Reset through rate limt and Time bounded Token sent in respective email
+
+#(1)Linke Expiry: This defines that the reset link will expire in 3 minutes after it is generated.
+PASSWORD_RESET_TIMEOUT = timedelta(minutes=6)
+
+def rate_limit(request, email=None):
+    ip = request.META.get('REMOTE_ADDR')
+    
+#(2)Rate Limit:This part ensures that a user can only make 3 requests per hour from the same IP address. If the user has exceeded 3 requests, they will be blocked for the next hour.
+
+    # IP rate limiting
+    attempts = cache.get(ip, 0)
+    if attempts >= 3:
+        return "Too many requests from this IP. Try again later."
+    
+    # Set rate limit for IP
+    cache.set(ip, attempts + 1, timeout=3600)  # Timeout set to 1 hour that is one can not make a new request for next 1 hour
+
+
+
+#(3)Email-based Flood Prevention:This section ensures that the user can only make a reset request once every 5 minutes using the same email. If they try again before 5 minutes, they must wait 1 hour (as defined by the 1-hour cache timeout) before making another request.
+
+    if email:
+        # Check last reset request for email within 5 minutes
+        last_request_time = cache.get(f"last_reset_request_{email}")
+        if last_request_time:
+            if datetime.now() - last_request_time < timedelta(minutes=5):  # One request per 5 minutes
+                return "Too many reset requests from this email. Please try again later."
+        
+        # Set the last request time for this email
+        cache.set(f"last_reset_request_{email}", datetime.now(), timeout=3600)  # Store last request time (1 hour timeout)
+
+    return None
+
+
+
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        
+        # Check for rate limit security
+        rate_limit_message = rate_limit(request, email=email)
+        if rate_limit_message:
+            messages.error(request, rate_limit_message)
+            return redirect('forgot_password')
+
+        try:
+            user = User.objects.get(email=email)
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+        
+            # Convert PASSWORD_RESET_TIMEOUT to seconds
+            timeout_seconds = PASSWORD_RESET_TIMEOUT.total_seconds()
+
+            # Set expiration time for the reset link (3 minutes)
+            reset_link_expiry = datetime.now() + PASSWORD_RESET_TIMEOUT
+            cache.set(f"reset_link_{uid}", reset_link_expiry, timeout=timeout_seconds)
+
+            # Generate the password reset URL
+            reset_url = reverse('reset_password', kwargs={'uidb64': uid, 'token': token})
+            reset_url = request.build_absolute_uri(reset_url)
+
+            # Send email with reset link
+            subject = "Password Reset Request"
+            message = render_to_string('password_reset_email.html', {
+                'reset_url': reset_url,
+                'user': user,
+            })
+            
+             # Create an EmailMessage instance with proper headers
+            email_message = EmailMessage(
+                subject,  # Email subject
+                message,  # Email message body
+                'no-reply@example.com',  # Sender's email address (no-reply)
+                [user.email],  # Recipient's email
+            )
+
+            # Set the "From" header explicitly with sender name as 'noreply'
+            email_message.extra_headers = {
+                'From': 'noreply <no-reply@example.com>',  # This will show 'noreply' in the From field
+                'Reply-To': 'no-reply@example.com',  # Ensures that the user cannot reply to this email
+            }
+
+            # Send the email
+            email_message.send()
+
+
+
+            messages.success(request, "Password reset link sent to your email.")
+            return redirect('forgot_password')
+        except User.DoesNotExist:
+            messages.error(request, "No account found with this email.")
+            return render(request, 'check_email.html')
+
+    return render(request, 'check_email.html')
+
+
+
+
+def reset_password(request, uidb64, token):
+    try:
+        # Decode the uidb64 to get the user ID
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+
+        # Check for token expiration
+        reset_link_expiry = cache.get(f"reset_link_{uidb64}")
+        if reset_link_expiry is None or datetime.now() > reset_link_expiry:
+            messages.error(request, "The reset link has expired.")
+            return redirect('forgot_password')
+
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    # Validate the token
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            new_password = request.POST.get('new-password')
+            confirm_password = request.POST.get('confirm-password')
+            
+            # Check if the passwords match
+            if new_password != confirm_password:
+                messages.error(request, "Passwords do not match.")
+                return render(request, 'resetPW.html', {'uidb64': uidb64, 'token': token})
+
+            try:
+                validate_password(new_password, user)
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, "Your password has been reset.")
+                return redirect('user_login')  # Redirect to login page after successful password reset
+            except ValidationError as e:
+                messages.error(request, ", ".join(e.messages))
+                return render(request, 'resetPW.html', {'uidb64': uidb64, 'token': token})
+
+        return render(request, 'resetPW.html', {'uidb64': uidb64, 'token': token})
+    else:
+        messages.error(request, "The reset link is invalid or expired.")
+        return redirect('forgot_password')

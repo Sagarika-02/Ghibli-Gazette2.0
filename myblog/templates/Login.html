@@ -84,7 +84,7 @@
         <div class="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-20 w-4/5">
             <!-- Logo -->
             <div class="flex-shrink-0">
-                <img src="{% static 'Images/logo4.png' %}" alt="Logo" class="w-50 h-50">
+                <img src="{% static 'Images/logo4.png' %}" alt="Logo" class="w-50 h-50 ">
             </div>
             <!-- Login Form -->
             <div class="w-full md:w-2/3 lg:w-1/2 shadow rounded p-8 form-container">
@@ -98,7 +98,7 @@
 
                     {% if messages %}
                     {% for message in messages %}
-                    <div class="alert alert-danger mb-4">
+                    <div class="alert alert-danger mb-4 text-red">
                         {{ message }}
                     </div>
                     {% endfor %}
@@ -110,10 +110,12 @@
                     </div>
                     <button type="submit" class="w-full btn">Log In</button>
                 </form>
+                <p class="mt-4 text-center"><a href="{% url 'forgot_password' %}"> Forgot Password?</a></p>
                 <p class="mt-6 text-center">Don't have an account? <a href="{% url 'signup' %}" class="hover:underline">Sign Up</a></p>
             </div>
         </div>
     </section>
+    
 </body>
 
 </html>

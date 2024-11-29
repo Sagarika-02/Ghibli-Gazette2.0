@@ -11,8 +11,8 @@
         <!--Username-->
         <div class="flex items-center ">
             {% if user.is_authenticated %}
-            <h3 class="text-lg  ml-4">
-                <span class="font-bold ">User:</span> {{ username }}
+            <h3 class="text-lg   ml-4" style="font-family: 'Courier New', Courier, monospace;">
+                <span class="font-bold "> <i class="fa-solid fa-user"></i> User:</span> {{ username }}
             </h3>
             {% endif %}
         </div>

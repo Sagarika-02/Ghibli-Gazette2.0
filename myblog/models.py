@@ -5,6 +5,7 @@ from django.db import models
 
 class signupModel(models.Model):
     username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True, null=True, blank=True)  # Added email field
     password = models.CharField(max_length=128)
 
 class profileModel(models.Model):

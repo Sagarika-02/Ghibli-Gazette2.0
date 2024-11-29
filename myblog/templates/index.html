@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ghibli Gazette</title>
+    <script src="https://kit.fontawesome.com/f41ea349cb.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{%static 'style.css' %}">
     <style>
@@ -64,7 +65,8 @@
             font-family: 'Garamond', serif;
             color: var(--bg-color);
         }
-
+        
+        
         .featured-post {
             background-color: var(--accent-color);
             color: white;
@@ -118,7 +120,7 @@
     <section class="hero section text-white py-20">
         <div class="container mx-auto text-center">
             <h2 class="text-4xl font-bold">Welcome to Ghibli Gazette</h2>
-            <p class="mt-4 text-lg" style="color: var(--bg-color);">Dive Into Ghibli Stories and Reflections</p>
+            <p class="mt-4 text-lg" style="color: var(--bg-color);  ">Dive Into Ghibli Stories and Reflections</p>
 
 
             <!-- Search Bar -->
@@ -132,11 +134,10 @@
                     >
                     <button 
                         type="submit" 
-                        class="bg-white bg-accent-color text-black px-4 py-2 rounded-r-md border  transition duration-300 ease-in-out flex items-center justify-center"
+                        class="bg-white bg-accent-color text-black px-4 py-2 rounded-r-md   transition duration-300 ease-in-out flex items-center justify-center"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 23 23" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14zm-2 7a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm3 8h.01M20.49 20.49l-3.44-3.44"/>
-                        </svg>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
                     </button>
                 </form>
             </div>
@@ -157,10 +158,10 @@
             <div class="featured-post shadow rounded overflow-hidden">
                 <img src="{{post.image.url}}" alt="Post Image" class="w-full h-48 object-cover">
                 <div class="p-6">
-                    <h4 class="titlename text-lg  mb-2">{{post.title}}</h4>
-                    <p class="username mb-2">{{post.user.username}}</p>
-                    <p class="time text-sm ">Posted on {{post.created_at}}</p>
-                    <p class="text-black mb-4 text-sm">{{post.content|truncatechars:90}}</p>
+                    <h4 class="titlename text-lg  font-bold mb-2" style="font-family: 'Courier New', Courier, monospace;">{{post.title}}</h4>
+                    <p class="username mb-2"> <i class="fa-solid fa-user"></i> {{post.user.username}}</p>
+                    <p class="time text-sm "> <i class="fa-regular fa-calendar"></i> Posted on {{post.created_at}} </p>
+                    <p class="text-black mb-4 text-sm"> {{post.content|truncatechars:90}}</p>
                     <a href="{%url 'readmore' pk=post.pk %}" class=" readmore text-white hover:underline">Read More</a>
                 </div>
             </div>
