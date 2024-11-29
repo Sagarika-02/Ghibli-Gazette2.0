@@ -75,6 +75,8 @@ Create a `.env` file in the root directory of the project with the following con
 ```env
 DJANGO_SECRET_KEY=your_secret_key
 DEBUG=True
+EMAIL_HOST_USER = 'YOUR_EMAIL_ID'
+EMAIL_HOST_PASSWORD = 'YOUR_APP_PASSWORD'
 ```
 
 Replace `your_secret_key` with a secure, random key. Adjust other values as needed.
