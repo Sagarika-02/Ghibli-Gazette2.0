@@ -24,6 +24,7 @@ Ghibli Gazette is a web application with a curated space for sharing insights an
 - HTML, CSS, JavaScript
 - Django (Python)
 - Tailwind CSS
+- SQLite
 
 ## Installation
 
