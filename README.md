@@ -76,8 +76,15 @@ Create a `.env` file in the root directory of the project with the following con
 ```env
 DJANGO_SECRET_KEY=your_secret_key
 DEBUG=True
+
 EMAIL_HOST_USER = 'YOUR_EMAIL_ID'
 EMAIL_HOST_PASSWORD = 'YOUR_APP_PASSWORD'
+
+DB_NAME='YOUR_DATABASE_NAME'
+DB_USER='USER_NAME'
+DB_PASSWORD='YOUR_PASSWORD'
+DB_HOST='YOUR_DB_HOST'
+DB_PORT='PORT_FOR_MySQL'
 ```
 
 Replace `your_secret_key` with a secure, random key. Adjust other values as needed.
