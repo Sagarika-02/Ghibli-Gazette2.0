@@ -17,12 +17,14 @@ Ghibli Gazette is a web application with a curated space for sharing insights an
 - Users can create, edit, and delete their own posts
 - Users can also interact with other user's post like can Read the posts, can see the user's Details on top of every post
 - Quickly find posts and relevant content with a powerful search function that allows users to search by keywords or phrases. This feature enhances user experience by making it easy to discover specific posts or topics of interest.
+- Password Reset Feature: Implements secure token-based email authentication with rate limiting and expiry validation.
 
 ## Technologies Used
 
 - HTML, CSS, JavaScript
 - Django (Python)
 - Tailwind CSS
+- SQLite
 
 ## Installation
 
@@ -74,6 +76,8 @@ Create a `.env` file in the root directory of the project with the following con
 ```env
 DJANGO_SECRET_KEY=your_secret_key
 DEBUG=True
+EMAIL_HOST_USER = 'YOUR_EMAIL_ID'
+EMAIL_HOST_PASSWORD = 'YOUR_APP_PASSWORD'
 ```
 
 Replace `your_secret_key` with a secure, random key. Adjust other values as needed.
