@@ -82,8 +82,18 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DB_NAME'),  # MySQL database name
+        'USER': os.getenv('DB_USER'),  # MySQL user
+        'PASSWORD': os.getenv('DB_PASSWORD'),  # MySQL user password
+        'HOST': os.getenv('DB_HOST'),  # MySQL host (default to localhost)
+        'PORT': os.getenv('DB_PORT'),  # MySQL port (default to 3306)
+        'OPTIONS': {
+            'charset': 'utf8mb4',  # This ensures UTF-8MB4 encoding is used
+       },
+
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',  # Check the path to your SQLite file
     }
 }
 
@@ -145,7 +155,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-SECURE_SSL_REDIRECT = False  # Ensure this is set to False
+#SECURE_SSL_REDIRECT = False  # Ensure this is set to False
 DEFAULT_FROM_EMAIL = 'no-reply@example.com'
 
 
